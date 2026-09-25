@@ -5,5 +5,5 @@ export class ScenarioPlayer {
  pause(){if(this.state==='running')this.state='paused';else if(this.state==='paused')this.state='running';this.onChange(this)}
  free(){if(this.state==='running')this.state='paused';this.onChange(this)}
  hazard(reason){if(this.state!=='running')return;this.state='frozen';this.hazardMoment=this.time;this.reason=reason;this.completed.add(this.scenario.id);this.onChange(this);this.onHazard(this)}
- tick(dt){if(this.state!=='running')return;this.time+=dt;const events=this.scenario.timeline;while(this.eventIndex+1<events.length&&events[this.eventIndex+1].t<=this.time){this.eventIndex++;this.behavior?.action?.(this.eventIndex);this.onChange(this)}this.behavior?.update(this.time,dt);if(this.state==='running')this.physics.step(dt);this.behavior?.sync?.();if(this.time>18&&this.state==='running'){this.state='failed';this.onChange(this)}}
+ tick(dt){if(this.state!=='running')return;this.time+=dt;const events=this.scenario.timeline;while(this.eventIndex+1<events.length&&events[this.eventIndex+1].t<=this.time){this.eventIndex++;this.behavior?.action?.(this.eventIndex);this.onChange(this)}this.behavior?.update?.(this.time,dt);if(this.state==='running')this.physics.step(dt);this.behavior?.sync?.();if(this.time>18&&this.state==='running'){this.state='failed';this.onChange(this)}}
 }
