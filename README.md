@@ -1,5 +1,7 @@
 # SiteLens Sim
 
+[Live demo](https://sitelens-sim.vercel.app/) · [Public repository](https://github.com/vikas1188/sitelens-sim) · [Live browser tests](https://sitelens-sim.vercel.app/tests.html)
+
 A standalone, low-poly construction-site safety diorama. Five interactive scenarios illustrate OSHA's Focus Four. All geometry is procedural; there are no model, texture, font, or image downloads. Vanilla ES modules, Three.js 0.160.1, and cannon-es 0.20.0 load through a pinned CDN import map. **No build, framework, bundler, or npm install.**
 
 ## Run
