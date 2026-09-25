@@ -51,3 +51,10 @@ export async function refreshRules({env=process.env,fetchImpl=fetch,persist=true
   }
   return document;
 }
+
+// Live world data: NWS San Francisco forecast via Nimble extract. The raw response goes to RawTree; only these fields enter the state card.
+export const WEATHER_URL='https://forecast.weather.gov/MapClick.php?lat=37.7749&lon=-122.4194';
+// Used only when Nimble fails. Value observed from the live NWS page on 2026-09-25; the UI labels it "cached".
+export const CACHED_WEATHER={wind_mph:23,advisory:false,summary:'Partly cloudy. West wind 5 to 14 mph, gusts as high as 23 mph.',source:'cached'};
+export function parseWeather(markdown){const period=(markdown.match(/\*\s+(?:Tonight|Today|This Afternoon|Overnight|[A-Z][a-z]+day(?: Night)?)\s*\n\s*!\[([^\]]+)\]/)||[])[1]||'';const speeds=[...period.matchAll(/(\d+)\s*mph/gi)].map(m=>Number(m[1]));if(!period||!speeds.length)throw new Error('NWS forecast wind not found');return {wind_mph:Math.max(...speeds),advisory:/\b(Wind Advisory|High Wind (?:Warning|Watch)|Gale Warning|Red Flag Warning)\b/i.test(markdown),summary:period.split(':').slice(1).join(':').trim().slice(0,300),source:'nimble-live'}}
+export async function fetchWeather({env=process.env,fetchImpl=fetch}={}){if(!env.NIMBLE_API_KEY)throw new Error('NIMBLE_API_KEY is not configured');const raw=await nimble('extract',{url:WEATHER_URL,formats:['markdown'],render:false},{key:env.NIMBLE_API_KEY,fetchImpl});return {raw,weather:parseWeather(contentOf(raw.data||raw))}}
