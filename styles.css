@@ -1,0 +1,1 @@
+*{box-sizing:border-box}body{margin:0;background:#eeeee6;color:#222d28;font-family:'Avenir Next',Avenir,'Segoe UI',sans-serif}#viewport{position:relative;height:100dvh;overflow:hidden}canvas{display:block;width:100%;height:100%}#loading{position:absolute;top:30px;left:30px}
