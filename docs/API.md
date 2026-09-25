@@ -49,3 +49,7 @@ The five configured zones are `ZONE-A` through `ZONE-E`. Simulation source event
 - `/api/edge/heartbeat`, `/api/edge/jobs`, `/api/edge/jobs/:id`: authenticated outbound worker protocol; see worker documentation. Browser code never receives the worker token.
 
 The Vercel handler uses private Blob compare-and-set persistence and a durable RawTree outbox. The local server uses its recoverable JSONL journal. Both share the same state transitions and report generator.
+
+## Alert pictures and human person labels
+
+`POST /api/detect` accepts optional `person_label` (maximum 120 characters). Frames with visible people and unconfirmed hardhat coverage retain a metadata-stripped JPEG and return `event.evidence_image` with URL/dimensions/capture timestamp. `GET /api/evidence-images/:uuid` serves it as JPEG with private/no-store caching. No picture is invented for old or simulated events. `POST /events/:id/person` with `{label}` saves or clears a human-entered person label without changing the hazard decision, original detection, or alert counts; it is appended to the evidence history and included in report records.

@@ -35,3 +35,7 @@ The worker remains a required running component. Browser camera inspection on th
 `node --test tests/edge-cloud.test.mjs` exercises bearer authorization, exclusive claiming, full queue/result flow, invalid claims/results, image limits, timeouts, failure cleanup, retrying failed deletes, environment isolation, and the outbound worker HTTP contract with injected dependencies. Real hosted operation additionally requires valid private Blob credentials, a shared worker token, the worker process, and the local Liquid runtime.
 
 The worker also accepts the origin on its command line: `node --env-file=.env.edge scripts/edge-worker.mjs --url https://your-deployment.vercel.app`. The bearer token remains in the environment.
+
+## Retained alert pictures
+
+After successful inference, the API saves a separate, metadata-stripped JPEG (maximum 1024 pixels per side) when people are visible without confirmed hardhat coverage. This is retained evidence, distinct from the temporary queue frame. The event stores its relative image URL; RawTree and model state do not contain image bytes. Private Blob keeps the file; the application image endpoint serves it to this shared dashboard. Local mode uses its ignored runtime directory. Clear frames and synthetic replays do not receive fabricated thumbnails. Person labels are entered by a human and are not model-verified identities.

@@ -27,3 +27,7 @@ The hosted smoke writes explicitly simulated test evidence and one blank-frame o
 ## Remaining product limits
 
 This is a shared hackathon demo, without user accounts. The local worker must stay online for hosted image inspection. Native iOS signing/device execution is unverified. Detection accuracy has not been validated on real construction-site footage. Reports support inspection documentation; they are not official OSHA injury/illness forms or a compliance certification.
+
+## Captured-image follow-up
+
+The expanded Node suite has 71 tests: 66 passed, 5 live opt-ins skipped, no failures. Five new tests verify image decoding/resizing/metadata stripping, path rejection, local persistence, private Blob roundtrip, and human-label history/report semantics. Separate live private Blob storage and real Liquid photo detection passed. Browser smoke verified the thumbnail, enlarged image dialog, label save/reload, preservation of unsaved text during polling, and mobile sizing without page errors. Old observations deliberately show no image; no picture or identity is reconstructed.

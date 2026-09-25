@@ -80,18 +80,19 @@ export class RawTree {
       argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'enrichment') AS enrichment_record,
       argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'verdict') AS verdict_record,
       argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'ack') AS ack_record,
-      argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'correction') AS correction_record
+      argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'correction') AS correction_record,
+      argMaxIf(payload, tuple(JSONExtractString(payload,'ts'), JSONExtractString(payload,'record_id')), JSONExtractString(payload,'kind') = 'person') AS person_record
       FROM (SELECT toJSONString(__raw_data) AS payload FROM ${this.table})
-      WHERE JSONExtractString(payload,'kind') IN ('detection','enrichment','verdict','ack','correction')
+      WHERE JSONExtractString(payload,'kind') IN ('detection','enrichment','verdict','ack','correction','person')
       GROUP BY event_id HAVING detection != '' AND enrichment_record != ''`;
   }
   mapRow(row) {
     const parse = value => value ? (typeof value === 'string' ? JSON.parse(value) : value) : {};
-    const detection = parse(row.detection), enriched = parse(row.enrichment_record), verdict = parse(row.verdict_record), ack = parse(row.ack_record), correction = parse(row.correction_record);
+    const detection = parse(row.detection), enriched = parse(row.enrichment_record), verdict = parse(row.verdict_record), ack = parse(row.ack_record), correction = parse(row.correction_record), person = parse(row.person_record);
     const corrective_action = correction.corrective_action ? {...correction.corrective_action} : null;
     if (corrective_action) for (const key of ['completed_at','updated_at']) if(corrective_action[key]) corrective_action[key] = normalizeRawTreeTimestamp(corrective_action[key]);
     const raw = {...detection, ts: normalizeRawTreeTimestamp(detection.ts)};delete raw.kind;delete raw.record_id;
-    return {...raw, raw, enrichment: enriched.enrichment, decision: enriched.decision, suppressed: Boolean(enriched.suppressed), verdict: verdict.verdict || null, acknowledged: Boolean(ack.acknowledged), acknowledged_at: normalizeRawTreeTimestamp(ack.ts) || null, corrective_action, closed: verdict.verdict === 'false_alarm' || Boolean(correction.closed)};
+    return {...raw, raw, person_label:person.person_label ?? raw.person_label ?? '', person_label_source:person.person_label_source || (raw.person_label?'human-entered; identity not verified by the model':null), person_label_updated_at:normalizeRawTreeTimestamp(person.ts)||null, enrichment: enriched.enrichment, decision: enriched.decision, suppressed: Boolean(enriched.suppressed), verdict: verdict.verdict || null, acknowledged: Boolean(ack.acknowledged), acknowledged_at: normalizeRawTreeTimestamp(ack.ts) || null, corrective_action, closed: verdict.verdict === 'false_alarm' || Boolean(correction.closed)};
   }
   async allEvents() {
     const rows = await this.query(`SELECT *, count() OVER () AS total_event_count FROM (${this.eventSQL()}) ORDER BY JSONExtractString(detection,'ts') DESC, event_id DESC`);

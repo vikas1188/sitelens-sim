@@ -56,7 +56,7 @@ For the hosted camera, keep both the local Liquid runtime and worker running:
 node --env-file=.env scripts/edge-worker.mjs --url https://sitelens-sim.vercel.app
 ```
 
-`EDGE_WORKER_TOKEN` must match the deployed server environment. Images are held temporarily in private Blob storage, claimed by the worker, and deleted on completion/expiry. If the laptop or worker is offline, simulation, review and reports continue; image inspection shows that the local worker is required. [Worker details](docs/EDGE-WORKER.md) · [Persistence](docs/CLOUD-STORAGE.md).
+`EDGE_WORKER_TOKEN` must match the deployed server environment. Inference frames are held temporarily in private Blob storage and deleted after processing. When people are visible without confirmed hardhat coverage, a resized JPEG is retained separately with its observation: the dashboard shows a thumbnail and click-to-expand view. Names/worker IDs are optional human-entered labels; the model does not identify people. Retained evidence is visible to users of this shared demo. Old observations have no recoverable image. If the laptop or worker is offline, simulation, review and reports continue; image inspection shows that the local worker is required. [Worker details](docs/EDGE-WORKER.md) · [Persistence](docs/CLOUD-STORAGE.md).
 
 The hackathon demo is a shared workspace with no user accounts; do not put confidential workplace/personnel information into this public demo. Keys remain server-side and are not committed.
 
