@@ -1,0 +1,27 @@
+{
+  "name": "sitelens-hackathon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "setup:sponsors": "node --env-file-if-exists=.env scripts/setup-sponsors.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "demo:new": "node --env-file-if-exists=.env scripts/new-demo.mjs",
+    "test:live": "RUN_LIVE_SPONSOR_TESTS=1 RUN_LIVE_JEV_TESTS=1 node --env-file=.env --test tests/sponsors.test.mjs tests/jev.test.mjs",
+    "record": "node scripts/record-demo.mjs",
+    "edge": "node --env-file-if-exists=.env scripts/edge-worker.mjs",
+    "build": "node scripts/build-check.mjs"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "docx": "^9.7.2"
+  }
+}

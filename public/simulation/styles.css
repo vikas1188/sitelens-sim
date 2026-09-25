@@ -831,3 +831,6 @@ dd {
     margin-top: 13px;
   }
 }
+
+#evidence-save{padding:14px 0 0;border-top:1px solid var(--line);margin-top:18px;font-size:12px;line-height:1.7}#evidence-save a{margin-left:12px;text-decoration:underline}#evidence-save button{padding:7px 12px;margin:0 7px}.embedded header,.embedded footer{display:none}.embedded .workspace{min-height:auto}.embedded aside{padding-top:25px}.embedded h1{font-size:32px}.embedded .intro{font-size:12px}.embedded .aside-bottom{display:none}
+.embedded .stage{height:460px;flex:none}.embedded .simulation{padding-bottom:20px}@media(max-width:700px){.embedded .stage{height:470px}}

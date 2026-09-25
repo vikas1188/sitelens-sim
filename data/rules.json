@@ -1,0 +1,242 @@
+{
+  "rules": [
+    {
+      "rule_id": "PPE-HEAD",
+      "hazard_type": "ppe_violation",
+      "title": "Head protection",
+      "osha_citation": "29 CFR 1926.100(a)",
+      "plain_english_rule": "Protective helmets are required where work exposes employees to possible head injury from impact, falling or flying objects, or electrical shock and burns.",
+      "recommended_action": "Pause exposed work, provide suitable head protection, and have a supervisor verify the hazard and protection before resuming.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.100",
+      "evidence_terms": [
+        "1926.100(a)",
+        "protective helmets"
+      ],
+      "scope_note": "A missing helmet is a potential violation only where a head-injury hazard exists. High-visibility clothing is not a universal requirement under this rule.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "b8936f94993b8a9915948c72b958abae52e3c30ccb6af1db23d83e1c6f5d61b0",
+        "content_characters": 12015,
+        "matched_terms": [
+          "1926.100(a)",
+          "protective helmets"
+        ],
+        "request_id": "b847779e-5fd9-489f-95bd-1280ef8184de"
+      }
+    },
+    {
+      "rule_id": "FOCUS4-STRUCK",
+      "hazard_type": "struck_by",
+      "title": "Keep clear of hoisted loads",
+      "osha_citation": "29 CFR 1926.1425(a), (b), (d)",
+      "plain_english_rule": "Minimize exposure along hoisting routes. Keep workers out of the fall zone of a stationary suspended load except for specified tasks; only workers needed to receive a landing load may enter its fall zone.",
+      "recommended_action": "Stop the lift when people are exposed; clear and control the fall zone, then have the lift supervisor verify permitted essential tasks.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1425",
+      "evidence_terms": [
+        "1926.1425",
+        "fall zone"
+      ],
+      "scope_note": "The standard has task-specific exceptions. Camera proximity is a review signal, not proof that no exception applies.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "7aaa60ab36e6502287b5768b06746cf439bdd853267b26866a1c427a543dca63",
+        "content_characters": 12395,
+        "matched_terms": [
+          "1926.1425",
+          "fall zone"
+        ],
+        "request_id": "31ce7211-cf86-4573-b67b-0801d0a5cee4"
+      }
+    },
+    {
+      "rule_id": "FOCUS4-FALL",
+      "hazard_type": "falls",
+      "title": "Unprotected edges",
+      "osha_citation": "29 CFR 1926.501(b)(1)",
+      "plain_english_rule": "At an unprotected walking or working edge six feet or more above a lower level, protect employees with guardrails, safety nets, or personal fall arrest systems.",
+      "recommended_action": "Keep workers away from the exposed edge until a competent site reviewer verifies suitable fall protection.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.501",
+      "evidence_terms": [
+        "1926.501(b)(1)",
+        "6 feet"
+      ],
+      "scope_note": "This scenario concerns unprotected sides and edges. Other tasks and surfaces have different requirements.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "6ae5684ef2a46c3a25c21d4ac721d7b27e7290db853d4ebbb671f673518f9677",
+        "content_characters": 22461,
+        "matched_terms": [
+          "1926.501(b)(1)",
+          "6 feet"
+        ],
+        "request_id": "e591069c-2d2f-42be-ae5e-c20e7a1aa0f9"
+      }
+    },
+    {
+      "rule_id": "FOCUS4-CAUGHT",
+      "hazard_type": "caught_between",
+      "title": "Excavation cave-in protection",
+      "osha_citation": "29 CFR 1926.652(a)(1)",
+      "plain_english_rule": "Protect employees in excavations against cave-ins with an adequate protective system, except in stable rock or an excavation under five feet where a competent person finds no indication of potential cave-in.",
+      "recommended_action": "Keep workers out of an unprotected excavation until a competent person evaluates conditions and provides the required protective system.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.652",
+      "evidence_terms": [
+        "1926.652(a)(1)",
+        "cave-ins"
+      ],
+      "scope_note": "Depth, soil conditions, and the competent-person determination cannot be established reliably from a single image.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "2913cda8360fa53713525f69c809e7559b0619617b5d569e4b101477f7b8c223",
+        "content_characters": 23203,
+        "matched_terms": [
+          "1926.652(a)(1)",
+          "cave-ins"
+        ],
+        "request_id": "a1c214e9-f9d7-4db8-bbfe-cea2cc50505f"
+      }
+    },
+    {
+      "rule_id": "FOCUS4-ELECTRIC",
+      "hazard_type": "electrocution",
+      "title": "Electrical exposure",
+      "osha_citation": "29 CFR 1926.416(a)(1)",
+      "plain_english_rule": "Do not permit work close enough to an electrical power circuit for contact unless employees are protected by de-energizing and grounding the circuit or by effective insulation or other guarding.",
+      "recommended_action": "Stop exposed work, isolate the area, and have qualified personnel verify de-energization or effective guarding before work resumes.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.416",
+      "evidence_terms": [
+        "1926.416(a)(1)",
+        "deenergizing"
+      ],
+      "scope_note": "An image cannot establish whether a circuit is energized or electrically safe.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "f57662e5177b68411d39fa5a3b7c39da201a150c3d5da8dd5991cd0d986c96f0",
+        "content_characters": 12568,
+        "matched_terms": [
+          "1926.416(a)(1)",
+          "deenergizing"
+        ],
+        "request_id": "3303b411-9147-428d-adae-b5401fec59c0"
+      }
+    },
+    {
+      "rule_id": "VEHICLE-REVERSE",
+      "hazard_type": "vehicle_reverse",
+      "title": "Reversing vehicle visibility",
+      "osha_citation": "29 CFR 1926.601(b)(4)",
+      "plain_english_rule": "A covered motor vehicle with an obstructed rear view may not be operated in reverse unless it has a reverse alarm audible above surrounding noise or an observer signals that reversing is safe.",
+      "recommended_action": "Pause reversing where workers may be exposed. Confirm a functioning audible reverse alarm or an observer directing safe movement, and keep the reversing path clear.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.601",
+      "evidence_terms": [
+        "1926.601(b)(4)",
+        "obstructed view"
+      ],
+      "scope_note": "Section 1926.601 covers motor vehicles operating within an off-highway jobsite not open to public traffic and excludes equipment covered by 1926.602. A camera cannot establish alarm audibility or the driver rearward view.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "0c99b26efb530b674e7f3490648bc41f4079b8ed80cec528a34c98b866db8422",
+        "content_characters": 15021,
+        "matched_terms": [
+          "1926.601(b)(4)",
+          "obstructed view"
+        ],
+        "request_id": "5b0518eb-1d40-42c3-8e9f-b1e1e5966c2a"
+      }
+    },
+    {
+      "rule_id": "LOAD-PINCH",
+      "hazard_type": "load_pinch",
+      "title": "Hoisted load exposure",
+      "osha_citation": "29 CFR 1926.1425(a)",
+      "plain_english_rule": "When available, use hoisting routes that minimize employee exposure to hoisted loads, consistent with public safety.",
+      "recommended_action": "Pause load movement when a person is exposed between the load and a fixed object. Review the hoisting route and clear the exposure area before resuming.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1425",
+      "evidence_terms": [
+        "1926.1425(a)",
+        "hoisting routes"
+      ],
+      "scope_note": "This reference addresses hoisting route exposure; it is not a general pinch-point rule for all equipment. Confirm that the observed object is a hoisted load and assess the actual operation.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "7aaa60ab36e6502287b5768b06746cf439bdd853267b26866a1c427a543dca63",
+        "content_characters": 12395,
+        "matched_terms": [
+          "1926.1425(a)",
+          "hoisting routes"
+        ],
+        "request_id": "3003abe4-c0bf-40fd-bc44-db0bd75af1d9"
+      }
+    },
+    {
+      "rule_id": "LADDER-ELECTRIC",
+      "hazard_type": "ladder_electrical",
+      "title": "Ladders near electrical equipment",
+      "osha_citation": "29 CFR 1926.1053(b)(12)",
+      "plain_english_rule": "Ladders must have nonconductive siderails where the employee or ladder could contact exposed energized electrical equipment.",
+      "recommended_action": "Stop ladder use near the electrical exposure. Have qualified personnel control the electrical hazard and verify a suitable ladder with nonconductive siderails.",
+      "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1053",
+      "evidence_terms": [
+        "1926.1053(b)(12)",
+        "nonconductive siderails"
+      ],
+      "scope_note": "A photograph cannot prove that equipment is energized, exposed, or within contact distance, or establish ladder conductivity. This is a prompt for human assessment.",
+      "evidence": {
+        "provider": "nimble",
+        "fetched_at": "2026-09-25T22:28:36.306Z",
+        "verified": true,
+        "content_sha256": "e9f990da3cbfa4b1cf9497dded8536e53a34867f45690f78dfa3db8b8ab021bd",
+        "content_characters": 30641,
+        "matched_terms": [
+          "1926.1053(b)(12)",
+          "nonconductive siderails"
+        ],
+        "request_id": "2a1c582a-21d4-44ea-8e62-bd5bf6b574ee"
+      }
+    }
+  ],
+  "provenance": {
+    "provider": "nimble",
+    "status": "verified",
+    "fetched_at": "2026-09-25T22:28:36.306Z",
+    "method": "Nimble v2 search + extract; deterministic human-curated mapping verified against retrieved OSHA source text. No generative legal interpretation.",
+    "verified_rule_count": 8,
+    "search_request_id": "b258e800-1437-4b4c-bce7-10cc79a8b1bc",
+    "search_results": [
+      {
+        "title": "OSHA Training Institute Construction Focus Four: Fall Hazards INSTRUCTOR GUIDE",
+        "url": "https://www.osha.gov/sites/default/files/falls_ig.pdf"
+      },
+      {
+        "title": "QUICK CARD TM Top Four Construction Hazards",
+        "url": "https://www.osha.gov/sites/default/files/publications/construction_hazards_qc.pdf"
+      },
+      {
+        "title": "OSHA Directorate of Training and Education April 2011 OSHA Training Institute",
+        "url": "https://www.osha.gov/sites/default/files/constrfocusfour_introduction.pdf"
+      },
+      {
+        "title": "Electrical Hazards in Construction Student Workbook.pdf",
+        "url": "https://www.osha.gov/sites/default/files/2022-01/Electrical%20Hazards%20in%20Construction%20Student%20Workbook.pdf"
+      },
+      {
+        "title": "Partnership #850 - Agreement - September 4, 2014",
+        "url": "https://www.osha.gov/partnerships/regional/region6/850-agreement-20140904"
+      }
+    ]
+  }
+}

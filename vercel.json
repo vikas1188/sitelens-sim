@@ -1,7 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": null,
-  "installCommand": null,
-  "outputDirectory": "."
+  "buildCommand": "node scripts/build-check.mjs",
+  "installCommand": "npm ci",
+  "outputDirectory": "public",
+  "functions": {"api/handler.mjs": {"maxDuration": 120, "includeFiles": "data/rules.json"}},
+  "rewrites": [
+    {"source": "/events", "destination": "/api/handler?route=/events"},
+    {"source": "/events/:id/:action", "destination": "/api/handler?route=/events/:id/:action"},
+    {"source": "/health", "destination": "/api/handler?route=/health"},
+    {"source": "/detect/frame", "destination": "/api/handler?route=/detect/frame"},
+    {"source": "/api/:path*", "destination": "/api/handler?route=/api/:path*"}
+  ],
+  "headers": [{"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "same-origin"}]}]
 }
