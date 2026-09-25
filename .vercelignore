@@ -1,0 +1,7 @@
+.git
+output
+.playwright-mcp
+__pycache__
+*.py
+README.md
+.DS_Store
