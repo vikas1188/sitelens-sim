@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>SiteLens Sim — smoke tests</title>
+    <style>
+      body {
+        font: 15px monospace;
+        background: #f4f4ed;
+        color: #233a30;
+        margin: 25px;
+      }
+      iframe {
+        width: 900px;
+        height: 700px;
+        border: 1px solid #ccc;
+      }
+      pre {
+        white-space: pre-wrap;
+      }
+      .pass {
+        color: #236a3e;
+      }
+      .fail {
+        color: #b63f31;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SiteLens Sim / Browser smoke tests</h1>
+    <p>
+      Runs the actual app, Three.js, Cannon physics, and DOM. No test
+      dependencies.
+    </p>
+    <pre id="results">Loading…</pre>
+    <iframe src="./index.html" title="Application under test"></iframe>
+    <script type="module" src="./tests.js"></script>
+  </body>
+</html>

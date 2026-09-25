@@ -1,20 +1,242 @@
-import {THREE,box} from './scene.js';
-import {CANNON} from './physics.js';
-export function createBehaviors({site,physics,hazard}){
- const helpers=new THREE.Group();site.site.add(helpers);
- function clear(){for(const child of [...helpers.children]){helpers.remove(child);child.traverse(o=>{o.geometry?.dispose();if(o.material)for(const m of [o.material].flat())m.dispose()})}site.worker.position.set(3,0,-5);site.worker.quaternion.identity();site.truck.position.set(14,0,13);site.wall.position.set(10,1.75,4);site.ladder.visible=false;site.slew.rotation.y=0;site.marker.visible=true;site.marker.position.set(3,.08,-5);site.marker.scale.set(1,1,1);site.load.visible=true;site.hook.visible=true;site.cable.visible=true}
- function workerBody(x,y,z,mass=0){return physics.body('worker',[.48,1,.4],[x,y+1,z],mass)}
- const behaviors={
- load:{setup(){clear();workerBody(3,0,-5);physics.load.velocity.set(1.2,0,0);physics.onContact((a,b)=>{if([a,b].includes('load')&&['ground','worker'].includes(a==='load'?b:a))hazard('load-contact')})},action(i){if(i===2)physics.release()},update(t){if(t<9.6){const angle=.07*Math.sin(t*.65);site.slew.rotation.y=angle;physics.anchor.position.set(-5+8*Math.cos(angle),18,-5-8*Math.sin(angle));physics.anchor.aabbNeedsUpdate=true}}}
- };
- let truckBody,truckWorker;
- behaviors.vehicle={setup(){clear();site.worker.position.set(-5,0,13);site.marker.position.set(-5,.08,13);truckWorker=workerBody(-5,0,13,80);truckWorker.linearFactor.set(0,0,0);truckWorker.angularFactor.set(0,0,0);truckBody=physics.body('truck',[3,1.3,1.4],[14,1.35,13]);truckBody.type=CANNON.Body.KINEMATIC;
- const vertices=[-3,1,0,-14,.08,-4,-14,.08,4,-3,1,0,-14,.08,4,-14,2,4,-3,1,0,-14,2,4,-14,2,-4,-3,1,0,-14,2,-4,-14,.08,-4];const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.computeVertexNormals();const cone=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:0xd6563f,transparent:true,opacity:.16,side:THREE.DoubleSide,depthWrite:false}));helpers.add(cone);this.cone=cone;cone.position.copy(site.truck.position);
- physics.onContact((a,b)=>{if([a,b].includes('truck')&&[a,b].includes('worker'))hazard('vehicle-worker-contact')})},update(t){truckBody.velocity.x=t>=1?-1.6:0},sync(){site.truck.position.x=truckBody.position.x;this.cone.position.copy(site.truck.position)}};
- let fallingWorker;
- behaviors.fall={setup(){clear();site.worker.position.set(-14,8.32,-7);site.marker.position.set(-8.8,.08,-7);box(helpers,.22,.15,9,-9,8.5,-7,0xc94c39);fallingWorker=null;physics.onContact((a,b)=>{if([a,b].includes('falling-worker')&&[a,b].includes('ground'))hazard('worker-ground-contact')})},action(i){if(i===2){fallingWorker=physics.body('falling-worker',[.45,1,.35],[-8.8,9.32,-7],75);fallingWorker.velocity.set(1.15,0,0);fallingWorker.angularVelocity.z=-1.5}},update(t){if(!fallingWorker)site.worker.position.x=-14+5.2*Math.max(0,Math.min((t-2)/7.8,1))},sync(){if(fallingWorker){site.worker.position.copy(fallingWorker.position);const offset=new THREE.Vector3(0,-1,0).applyQuaternion(fallingWorker.quaternion);site.worker.position.add(offset);site.worker.quaternion.copy(fallingWorker.quaternion)}}};
- behaviors.caught={setup(){clear();site.wall.position.set(7.3,1.75,-5);site.worker.position.set(6.3,0,-5);site.marker.position.set(6.3,.08,-5);site.marker.scale.set(.65,.65,.65);workerBody(6.3,0,-5);physics.body('wall',[.325,1.75,3],[7.3,1.75,-5]);physics.anchor.position.set(3,18,-5);physics.load.position.set(-2,2.8,-5);physics.attach(Math.sqrt(25+15.2**2));physics.load.type=CANNON.Body.STATIC;physics.load.updateMassProperties();physics.sync();physics.onContact((a,b)=>{if([a,b].includes('load')&&[a,b].includes('worker'))hazard('load-worker-pinch-contact')})},action(i){if(i===1){physics.load.type=CANNON.Body.DYNAMIC;physics.load.updateMassProperties();physics.load.wakeUp()}}};
- let envelope;
- behaviors.electric={setup(){clear();site.ladder.visible=true;site.ladder.rotation.x=-1.45;site.worker.position.set(14,0,-12.4);site.worker.rotation.y=Math.PI;site.marker.position.set(14,.08,-17);site.marker.scale.set(1.4,1.4,1.4);envelope=new THREE.Group();helpers.add(envelope);for(const z of [-20,-19,-18]){const points=[];for(let i=0;i<=32;i++){const x=-21+42*i/32;points.push(new THREE.Vector3(x,13.5-1.2*(1-(x/21)**2),z))}const curve=new THREE.CatmullRomCurve3(points);const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,40,.9,6,false),new THREE.MeshBasicMaterial({color:0xd74e37,transparent:true,opacity:.12,depthWrite:false}));envelope.add(tube)}},update(t){const a=-1.45+1.08*Math.max(0,Math.min((t-2)/10,1));site.ladder.rotation.x=a;const top=new THREE.Vector3(0,13,0).applyEuler(site.ladder.rotation).add(site.ladder.position);const lineY=13.5-1.2*(1-(top.x/21)**2);let distance=Infinity;for(const z of [-20,-19,-18])distance=Math.min(distance,Math.hypot(top.y-lineY,top.z-z));for(const tube of envelope.children)tube.material.opacity=distance<2?.24:.1;if(distance<.9)hazard('ladder-line-proximity')}};
- return behaviors;
+import { THREE, box } from "./scene.js";
+import { CANNON } from "./physics.js";
+export function createBehaviors({
+  site,
+  physics,
+  hazard,
+  reducedMotion = false,
+}) {
+  const ambientStarts = site.extras.map((w) => w.position.clone());
+  const helpers = new THREE.Group();
+  site.site.add(helpers);
+  function clear() {
+    site.extras.forEach((w, i) => w.position.copy(ambientStarts[i]));
+    for (const child of [...helpers.children]) {
+      helpers.remove(child);
+      child.traverse((o) => {
+        o.geometry?.dispose();
+        if (o.material) for (const m of [o.material].flat()) m.dispose();
+      });
+    }
+    site.worker.position.set(3, 0, -5);
+    site.worker.quaternion.identity();
+    site.truck.position.set(14, 0, 13);
+    site.wall.position.set(10, 1.75, 4);
+    site.ladder.visible = false;
+    site.slew.rotation.y = 0;
+    site.marker.visible = true;
+    site.marker.position.set(3, 0.08, -5);
+    site.marker.scale.set(1, 1, 1);
+    site.load.visible = true;
+    site.hook.visible = true;
+    site.cable.visible = true;
+  }
+  function workerBody(x, y, z, mass = 0) {
+    return physics.body("worker", [0.48, 1, 0.4], [x, y + 1, z], mass);
+  }
+  const behaviors = {
+    load: {
+      setup() {
+        clear();
+        workerBody(3, 0, -5);
+        physics.load.velocity.set(1.2, 0, 0);
+        physics.onContact((a, b) => {
+          if (
+            [a, b].includes("load") &&
+            ["ground", "worker"].includes(a === "load" ? b : a)
+          )
+            hazard("load-contact");
+        });
+      },
+      action(i) {
+        if (i === 2) physics.release();
+      },
+      update(t) {
+        if (t < 9.6) {
+          const angle = 0.07 * Math.sin(t * 0.65);
+          site.slew.rotation.y = angle;
+          physics.anchor.position.set(
+            -5 + 8 * Math.cos(angle),
+            18,
+            -5 - 8 * Math.sin(angle),
+          );
+          physics.anchor.aabbNeedsUpdate = true;
+        }
+      },
+    },
+  };
+  let truckBody, truckWorker;
+  behaviors.vehicle = {
+    setup() {
+      clear();
+      site.worker.position.set(-5, 0, 13);
+      site.marker.position.set(-5, 0.08, 13);
+      truckWorker = workerBody(-5, 0, 13, 80);
+      truckWorker.linearFactor.set(0, 0, 0);
+      truckWorker.angularFactor.set(0, 0, 0);
+      truckBody = physics.body("truck", [3, 1.3, 1.4], [14, 1.35, 13]);
+      truckBody.type = CANNON.Body.KINEMATIC;
+      const vertices = [
+        -3, 1, 0, -14, 0.08, -4, -14, 0.08, 4, -3, 1, 0, -14, 0.08, 4, -14, 2,
+        4, -3, 1, 0, -14, 2, 4, -14, 2, -4, -3, 1, 0, -14, 2, -4, -14, 0.08, -4,
+      ];
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(vertices, 3),
+      );
+      geometry.computeVertexNormals();
+      const cone = new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({
+          color: 0xd6563f,
+          transparent: true,
+          opacity: 0.16,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        }),
+      );
+      helpers.add(cone);
+      this.cone = cone;
+      cone.position.copy(site.truck.position);
+      physics.onContact((a, b) => {
+        if ([a, b].includes("truck") && [a, b].includes("worker"))
+          hazard("vehicle-worker-contact");
+      });
+    },
+    update(t) {
+      truckBody.velocity.x = t >= 1 ? -1.6 : 0;
+    },
+    sync() {
+      site.truck.position.x = truckBody.position.x;
+      this.cone.position.copy(site.truck.position);
+    },
+  };
+  let fallingWorker;
+  behaviors.fall = {
+    setup() {
+      clear();
+      site.worker.position.set(-14, 8.32, -7);
+      site.marker.position.set(-8.8, 0.08, -7);
+      box(helpers, 0.22, 0.15, 9, -9, 8.5, -7, 0xc94c39);
+      fallingWorker = null;
+      physics.onContact((a, b) => {
+        if ([a, b].includes("falling-worker") && [a, b].includes("ground"))
+          hazard("worker-ground-contact");
+      });
+    },
+    action(i) {
+      if (i === 2) {
+        fallingWorker = physics.body(
+          "falling-worker",
+          [0.45, 1, 0.35],
+          [-8.8, 9.32, -7],
+          75,
+        );
+        fallingWorker.velocity.set(1.15, 0, 0);
+        fallingWorker.angularVelocity.z = -1.5;
+      }
+    },
+    update(t) {
+      if (!fallingWorker)
+        site.worker.position.x =
+          -14 + 5.2 * Math.max(0, Math.min((t - 2) / 7.8, 1));
+    },
+    sync() {
+      if (fallingWorker) {
+        site.worker.position.copy(fallingWorker.position);
+        const offset = new THREE.Vector3(0, -1, 0).applyQuaternion(
+          fallingWorker.quaternion,
+        );
+        site.worker.position.add(offset);
+        site.worker.quaternion.copy(fallingWorker.quaternion);
+      }
+    },
+  };
+  behaviors.caught = {
+    setup() {
+      clear();
+      site.wall.position.set(7.3, 1.75, -5);
+      site.worker.position.set(6.3, 0, -5);
+      site.marker.position.set(6.3, 0.08, -5);
+      site.marker.scale.set(0.65, 0.65, 0.65);
+      workerBody(6.3, 0, -5);
+      physics.body("wall", [0.325, 1.75, 3], [7.3, 1.75, -5]);
+      physics.anchor.position.set(3, 18, -5);
+      physics.load.position.set(-2, 2.8, -5);
+      physics.attach(Math.sqrt(25 + 15.2 ** 2));
+      physics.load.type = CANNON.Body.STATIC;
+      physics.load.updateMassProperties();
+      physics.sync();
+      physics.onContact((a, b) => {
+        if ([a, b].includes("load") && [a, b].includes("worker"))
+          hazard("load-worker-pinch-contact");
+      });
+    },
+    action(i) {
+      if (i === 1) {
+        physics.load.type = CANNON.Body.DYNAMIC;
+        physics.load.updateMassProperties();
+        physics.load.wakeUp();
+      }
+    },
+  };
+  let envelope;
+  behaviors.electric = {
+    setup() {
+      clear();
+      site.ladder.visible = true;
+      site.ladder.rotation.x = -1.45;
+      site.worker.position.set(14, 0, -12.4);
+      site.worker.rotation.y = Math.PI;
+      site.marker.position.set(14, 0.08, -17);
+      site.marker.scale.set(1.4, 1.4, 1.4);
+      envelope = new THREE.Group();
+      helpers.add(envelope);
+      for (const z of [-20, -19, -18]) {
+        const points = [];
+        for (let i = 0; i <= 32; i++) {
+          const x = -21 + (42 * i) / 32;
+          points.push(
+            new THREE.Vector3(x, 13.5 - 1.2 * (1 - (x / 21) ** 2), z),
+          );
+        }
+        const curve = new THREE.CatmullRomCurve3(points);
+        const tube = new THREE.Mesh(
+          new THREE.TubeGeometry(curve, 40, 0.9, 6, false),
+          new THREE.MeshBasicMaterial({
+            color: 0xd74e37,
+            transparent: true,
+            opacity: 0.12,
+            depthWrite: false,
+          }),
+        );
+        envelope.add(tube);
+      }
+    },
+    update(t) {
+      const a = -1.45 + 1.08 * Math.max(0, Math.min((t - 2) / 10, 1));
+      site.ladder.rotation.x = a;
+      const top = new THREE.Vector3(0, 13, 0)
+        .applyEuler(site.ladder.rotation)
+        .add(site.ladder.position);
+      const lineY = 13.5 - 1.2 * (1 - (top.x / 21) ** 2);
+      let distance = Infinity;
+      for (const z of [-20, -19, -18])
+        distance = Math.min(distance, Math.hypot(top.y - lineY, top.z - z));
+      for (const tube of envelope.children)
+        tube.material.opacity = distance < 2 ? 0.24 : 0.1;
+      if (distance < 0.9) hazard("ladder-line-proximity");
+    },
+  };
+  for (const behavior of Object.values(behaviors)) {
+    const original = behavior.update;
+    behavior.update = (t, dt) => {
+      original?.call(behavior, t, dt);
+      if (reducedMotion) return;
+      site.extras[0].position.z = ambientStarts[0].z + Math.sin(t * 0.3) * 1.5;
+      site.extras[1].position.x = ambientStarts[1].x + Math.sin(t * 0.25) * 0.8;
+    };
+  }
+  return behaviors;
 }
