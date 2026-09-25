@@ -1,6 +1,6 @@
 # SiteLens — simulation, observations, and corrective actions
 
-[Live application](https://sitelens-sim.vercel.app/) · [GitHub](https://github.com/vikas1188/sitelens-sim)
+[Live application](https://sitelens-sim.vercel.app/) · [GitHub](https://github.com/vikas1188/sitelens-sim) · [Submission & demo script](docs/DEMO.md)
 
 One dashboard combines five physical construction-safety simulations, Liquid image observations, human review, corrective-action tracking, and downloadable inspection reports. Simulation events are explicitly labelled and excluded from inspection reports by default.
 
