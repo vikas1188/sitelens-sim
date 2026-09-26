@@ -19,3 +19,4 @@ artifacts/
 .runtime/
 
 .vercel
+.env*.local
